@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMS Report Writer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Template Selection Modal -->
+    <div id="templateSelectionModal" class="modal active">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Select a Template</h2>
+                <button class="close-btn" type="button" onclick="closeTemplateSelection()">&times;</button>
+            </div>
+            <div id="templateSelectionList">
+                <p>No templates available. Click "Skip" to start with a blank document.</p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-secondary" type="button" onclick="closeTemplateSelection()">Skip</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">EMS Report Writer</div>
+            <div class="nav-links">
+                <button class="nav-btn active" onclick="showPage('editor')">Editor</button>
+                <button class="nav-btn" onclick="showPage('snippets')">Snippets</button>
+                <button class="nav-btn" onclick="showPage('templates')">Templates</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Editor Page -->
+        <div id="editorPage" class="page active">
+            <div class="editor-container">
+                <div class="editor-main">
+                    <textarea id="documentationText" placeholder="Start typing your EMS report here. Use {snippetName} to insert snippets..."></textarea>
+                    <button class="evaluate-btn" onclick="evaluateSnippets()">Evaluate Snippets</button>
+                </div>
+                <div class="editor-sidebar">
+                    <button class="use-template-btn" onclick="openTemplateSelector()">Use Template</button>
+                    <h3 style="margin-bottom: 1rem; color: #2c3e50;">Available Snippets</h3>
+                    <div id="snippetsSidebar"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Snippets Page -->
+        <div id="snippetsPage" class="page">
+            <div class="snippets-header">
+    <h2>Manage Snippets</h2>
+    <div style="display: flex; gap: 1rem;">
+        <button class="btn-secondary" onclick="expandAllGroups()">Expand All</button>
+        <button class="btn-secondary" onclick="collapseAllGroups()">Collapse All</button>
+        <button class="btn-secondary" onclick="exportSnippets()">Export Snippets</button>
+        <button class="btn-secondary" onclick="importSnippets()">Import Snippets</button>
+        <button class="btn-primary" onclick="openSnippetModal()">Create New Snippet</button>
+    </div>
+</div>
+            <div class="snippets-list" id="snippetsList"></div>
+        </div>
+
+        <!-- Templates Page -->
+        <div id="templatesPage" class="page">
+            <div class="templates-header">
+                <h2>Manage Templates</h2>
+                <div style="display: flex; gap: 1rem;">
+                    <button class="btn-secondary" onclick="exportTemplates()">Export Templates</button>
+                    <button class="btn-secondary" onclick="importTemplates()">Import Templates</button>
+                    <button class="btn-primary" onclick="openTemplateModal()">Create New Template</button>
+                </div>
+            </div>
+            <div class="templates-list" id="templatesList"></div>
+        </div>
+    </div>
+
+    <!-- Snippet Modal -->
+    <div id="snippetModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="snippetModalTitle">Create New Snippet</h2>
+                <button class="close-btn" onclick="closeSnippetModal()">&times;</button>
+            </div>
+            <form id="snippetForm">
+                <div class="form-group">
+                    <label class="form-label">Snippet Name</label>
+                    <input type="text" class="form-input" id="snippetName" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Group Name</label>
+                    <input type="text" class="form-input" id="snippetGroup" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Output Template (Optional)</label>
+                    <textarea class="form-input" id="snippetTemplate" rows="3" placeholder="Enter how the answers should be formatted. Use {field1}, {field2}, etc. to insert field values.&#10;Example: Patient {field1} is a {field2} year old {field3} presenting with {field4}."></textarea>
+                    <small style="color: #6c757d; margin-top: 0.5rem; display: block;">
+                        If no template is provided, answers will be displayed as "Field: Value" pairs.
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Fields</label>
+                    <div class="fields-section" id="fieldsContainer">
+                        <div class="add-field-section" onclick="showFieldForm()">
+                            <p style="margin: 0; color: #6c757d;">
+                                <span style="font-size: 2rem;">+</span><br>
+                                Click to add a field
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="closeSnippetModal()">Cancel</button>
+                <button class="btn-primary" onclick="saveSnippet()">Save Snippet</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Template Modal -->
+    <div id="templateModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="templateModalTitle">Create New Template</h2>
+                <button class="close-btn" onclick="closeTemplateModal()">&times;</button>
+            </div>
+            <form id="templateForm">
+                <div class="form-group">
+                    <label class="form-label">Template Name</label>
+                    <input type="text" class="form-input" id="templateName" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Template Content</label>
+                    <textarea rows="12" class="form-input form-textarea" id="templateContent" placeholder="Enter your template content here. Use {snippetName} for snippets..." required></textarea>
+                </div>
+            </form>
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="closeTemplateModal()">Cancel</button>
+                <button class="btn-primary" onclick="saveTemplate()">Save Template</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Question Modal -->
+    <div id="questionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Fill Snippet Information</h2>
+                <button class="close-btn" onclick="closeQuestionModal()">&times;</button>
+            </div>
+            <div id="questionContent"></div>
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="closeQuestionModal()">Cancel</button>
+                <button class="btn-primary" onclick="submitAnswers()">Apply</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Template Selector Modal -->
+    <div id="templateSelectorModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Select a Template</h2>
+                <button class="close-btn" type="button" onclick="closeTemplateSelector()">&times;</button>
+            </div>
+            <div id="templateSelectorList">
+                <p>No templates available.</p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-secondary" type="button" onclick="closeTemplateSelector()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden file input for imports -->
+    <input type="file" id="importFileInput" accept=".json" style="display: none;" onchange="handleFileImport(event)">
+
+    <script src="./ems-snippets.js"></script>
+    <script src="./ems-templates.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
