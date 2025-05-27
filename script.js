@@ -738,8 +738,8 @@ function renderFields(fields) {
             html += field.conditional ? '<span class="conditional-badge">Conditional</span>' : '';
             html += '</div>';
             html += '<div class="field-controls">';
-            html += '<button type="button" class="btn-small btn-edit" onclick="event.stopPropagation(); editField(' + index + ')" title="Edit field">✏️</button>';
-            html += '<button type="button" class="btn-small btn-delete" onclick="event.stopPropagation(); removeField(' + index + ')" title="Delete field">🗑️</button>';
+            html += '<button type="button" class="btn-small btn-edit" onclick="event.stopPropagation(); editField(' + index + ')" title="Edit field">Edit</button>';
+            html += '<button type="button" class="btn-small btn-delete" onclick="event.stopPropagation(); removeField(' + index + ')" title="Delete field">Delete</button>';
             html += '</div>';
             html += '</div>';
             html += '<div class="field-details">';

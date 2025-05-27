@@ -1,129 +1,125 @@
 let snippets = [
   {
-    "id": 1,
-    "name": "patientInfo",
-    "group": "Patient Demographics",
-    "template": "Patient {field1} is a {field2} year old {field3}.",
+    "id": 1748384433693,
+    "name": "dispatch info",
+    "group": "Basic Info",
+    "template": "{field1} was dispatched for {field2}. {field3} {field4} marked en-route {field5}. Secondary information provided was {field6}.",
     "fields": [
       {
-        "id": 1,
-        "name": "Patient Name",
-        "type": "text",
-        "required": true,
-        "defaultValue": ""
-      },
-      {
-        "id": 2,
-        "name": "Age",
-        "type": "text",
-        "required": true,
-        "defaultValue": ""
-      },
-      {
-        "id": 3,
-        "name": "Gender",
-        "type": "select",
+        "id": 1748384340395,
+        "name": "Station",
+        "type": "radio",
         "required": true,
         "options": [
-          "Male",
-          "Female",
-          "Other"
+          "Wintergreen station 1",
+          "Wintergreen station 2",
+          "Nelson EMS"
         ],
-        "defaultValue": "Male"
-      }
-    ]
-  },
-  {
-    "id": 2,
-    "name": "vitalSigns",
-    "group": "Assessment",
-    "template": "Vital signs: BP {field1}, HR {field2}, RR {field3}, Temp {field4}.",
-    "fields": [
-      {
-        "id": 1,
-        "name": "Blood Pressure",
-        "type": "text",
-        "required": true,
         "defaultValue": ""
       },
       {
-        "id": 2,
-        "name": "Heart Rate",
+        "id": 1748384353510,
+        "name": "Complaint",
         "type": "text",
         "required": true,
+        "options": null,
         "defaultValue": ""
       },
       {
-        "id": 3,
-        "name": "Respiratory Rate",
-        "type": "text",
+        "id": 1748384392277,
+        "name": "Level",
+        "type": "radio",
         "required": true,
-        "defaultValue": ""
+        "options": [
+          "Rescue",
+          "Trauma",
+          "Medic"
+        ],
+        "defaultValue": "Medic"
       },
       {
-        "id": 4,
-        "name": "Temperature",
+        "id": 1748384399027,
+        "name": "Unit Number",
         "type": "text",
         "required": false,
+        "options": null,
+        "defaultValue": ""
+      },
+      {
+        "id": 1748384415877,
+        "name": "Response Mode",
+        "type": "select",
+        "required": false,
+        "options": [
+          "emergent",
+          "non-emergent"
+        ],
+        "defaultValue": ""
+      },
+      {
+        "id": 1748384479027,
+        "name": "Secondary Info",
+        "type": "text",
+        "required": false,
+        "options": null,
         "defaultValue": ""
       }
     ]
   },
   {
-    "id": 3,
-    "name": "medicationAdmin",
-    "group": "Treatment",
-    "template": "Medication administered: {field1}. {field2}{field3}{field4}",
+    "id": 1748384632211,
+    "name": "complaints",
+    "group": "Basic Info",
+    "template": "Pt presents to EMS as a {field1} YO{field2} who has complaints of {field3}. {field4} {field5}.",
     "fields": [
       {
-        "id": 1,
-        "name": "Was medication given?",
-        "type": "select",
+        "id": 1748384508610,
+        "name": "Age",
+        "type": "text",
+        "required": false,
+        "options": null,
+        "defaultValue": ""
+      },
+      {
+        "id": 1748384520593,
+        "name": "Gender",
+        "type": "radio",
         "required": true,
         "options": [
-          "Yes",
-          "No"
+          "M",
+          "F"
         ],
-        "defaultValue": "No"
+        "defaultValue": ""
       },
       {
-        "id": 2,
-        "name": "Medication Name",
+        "id": 1748384548261,
+        "name": "Primary Complaint",
         "type": "text",
-        "required": true,
-        "defaultValue": "",
-        "conditional": {
-          "dependsOn": 1,
-          "showWhen": "Yes"
-        }
+        "required": false,
+        "options": null,
+        "defaultValue": ""
       },
       {
-        "id": 3,
-        "name": "Dosage",
-        "type": "text",
-        "required": true,
-        "defaultValue": "",
-        "conditional": {
-          "dependsOn": 1,
-          "showWhen": "Yes"
-        }
-      },
-      {
-        "id": 4,
-        "name": "Route of Administration",
+        "id": 1748384592361,
+        "name": "Secondary Complaints",
         "type": "select",
-        "required": true,
+        "required": false,
         "options": [
-          "IV",
-          "IM",
-          "Oral",
-          "Sublingual",
-          "Inhaled"
+          "Pt has secondary complaints of",
+          "Pt denies any secondary complaints"
         ],
-        "defaultValue": "IV",
+        "defaultValue": ""
+      },
+      {
+        "id": 1748384608994,
+        "name": "Secondary list",
+        "type": "text",
+        "required": false,
+        "options": null,
+        "defaultValue": "",
         "conditional": {
-          "dependsOn": 1,
-          "showWhen": "Yes"
+          "dependsOn": 1748384592361,
+          "showWhen": "Pt has secondary complaints of"
         }
       }
     ]
