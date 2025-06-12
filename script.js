@@ -1282,13 +1282,14 @@ function saveTemplate() {
 let importType = null;
 
 function exportSnippets() {
-    const dataStr = JSON.stringify(snippets, null, 2);
-    const dataBlob = new Blob([dataStr], {type: 'application/json'});
+    const dataStr = "let snippets = " + JSON.stringify(snippets, null, 2);
+    // const dataStr = "let snippets = " +JSON.stringify(snippets)
+    const dataBlob = new Blob([dataStr], {type: 'application/js'});
     const url = URL.createObjectURL(dataBlob);
     
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'ems-snippets.json';
+    link.download = 'ems-snippets.js';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -1296,13 +1297,13 @@ function exportSnippets() {
 }
 
 function exportTemplates() {
-    const dataStr = JSON.stringify(templates, null, 2);
-    const dataBlob = new Blob([dataStr], {type: 'application/json'});
+    const dataStr = "let templates = " + JSON.stringify(templates, null, 2);
+    const dataBlob = new Blob([dataStr], {type: 'application/js'});
     const url = URL.createObjectURL(dataBlob);
     
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'ems-templates.json';
+    link.download = 'ems-templates.js';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
